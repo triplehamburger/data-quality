@@ -29,6 +29,14 @@ const SAMPLE_DATA = {
     advanced: ADVANCED_ROWS,
 };
 
+// Each rubric is built for one message model; the engine rejects any other pairing
+const RUBRIC_MODELS = {
+    Basic_VA_Lab: 'PAT_CLINICAL_V1',
+    Advanced_VA_Lab: 'PAT_CLINICAL_ADVANCED_V1',
+    USCDI_V3: 'PAT_CLINICAL_V1',
+    USCDI_V2: 'PAT_CLINICAL_V1',
+};
+
 // ---- UTILITY FUNCTIONS ----
 function generateSessionID() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -126,6 +134,11 @@ async function handleConversion() {
     }
 }
 
+function selectModelForRubric() {
+    const model = RUBRIC_MODELS[els.evaluationRubricMnemonic.value];
+    if (model) els.piqiModelMnemonic.value = model;
+}
+
 function handleClearForm() {
     if (confirm('Are you sure you want to clear the form?')) {
         document.getElementById('apiForm').reset();
@@ -176,6 +189,9 @@ document.addEventListener('DOMContentLoaded', () => {
         els.conversionStatus.classList.remove('show');
     });
     els.btnClearForm.addEventListener('click', handleClearForm);
+    // Keep the model in step with the rubric so a mismatch can't be submitted
+    els.evaluationRubricMnemonic.addEventListener('change', selectModelForRubric);
+    selectModelForRubric();
     els.placeholderDropdown.addEventListener('change', () => {
         const rows = SAMPLE_DATA[els.placeholderDropdown.value];
         if (!rows) return;
