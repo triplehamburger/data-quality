@@ -756,9 +756,6 @@ document.getElementById('apiForm').addEventListener('submit', async function (e)
         responseSection.classList.add('show');
         responseHeader.innerHTML = `<span class="success">✓ Completed ${messages.length} evaluation(s): ${successCount} succeeded, ${failCount} failed</span>`;
 
-        if (successCount > 0) {
-            responseHeader.innerHTML += ' | ✓ Saved to Database';
-        }
 
         // Add collapse/expand all buttons
         const toggleButtonsHTML = `    <div style="margin: 15px 0; display: flex; gap: 10px;">
