@@ -29,6 +29,14 @@ const SAMPLE_DATA = {
     advanced: ADVANCED_ROWS,
 };
 
+// Each sample set is meant for one rubric; scoring Advanced rows against Basic_VA_Lab
+// returns a plausible but wrong score rather than an error, so pick the rubric too.
+// 'all' mixes both sets, so it leaves the rubric alone.
+const SAMPLE_RUBRICS = {
+    basic: 'Basic_VA_Lab',
+    advanced: 'Advanced_VA_Lab',
+};
+
 // ---- UTILITY FUNCTIONS ----
 function generateSessionID() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -180,6 +188,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const rows = SAMPLE_DATA[els.placeholderDropdown.value];
         if (!rows) return;
         els.spreadsheetInput.value = rows.map(row => row.join('\t')).join('\n');
+        const rubric = SAMPLE_RUBRICS[els.placeholderDropdown.value];
+        if (rubric) {
+            els.evaluationRubricMnemonic.value = rubric;
+            els.evaluationRubricMnemonic.dispatchEvent(new Event('change'));
+        }
         els.placeholderDropdown.selectedIndex = 0; // so the option can be picked again
     });
 });
