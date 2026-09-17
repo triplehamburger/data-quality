@@ -10,7 +10,6 @@ const PIQI_CONFIG = {
         "Basic_VA_Lab",
         "Advanced_VA_Lab",
         "USCDI_V3",
-        "USCDI_V2",
-        "VA_Laboratory"
+        "USCDI_V2"
     ]
 };
